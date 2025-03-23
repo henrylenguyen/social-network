@@ -1,0 +1,12 @@
+{
+  "extends": "@social-blog/typescript-config/nestjs.json",
+  "compilerOptions": {
+    "baseUrl": "./",
+    "outDir": "./dist",
+    "paths": {
+      "@/*": ["src/*"]
+    }
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"]
+}
