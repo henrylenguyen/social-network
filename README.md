@@ -1,209 +1,257 @@
-# Hướng dẫn sử dụng công cụ tạo component tự động
+# Hướng dẫn sử dụng công cụ tự động tạo component và ứng dụng
 
 ## Mục lục
 
 - [Giới thiệu](#giới-thiệu)
 - [Cài đặt](#cài-đặt)
-- [Cách sử dụng app-component.mjs](#cách-sử-dụng-app-componentmjs)
-- [Cách sử dụng package-component.mjs](#cách-sử-dụng-package-componentmjs)
-- [Cấu trúc file được tạo](#cấu-trúc-file-được-tạo)
-- [Tùy chọn nâng cao](#tùy-chọn-nâng-cao)
-- [Các vấn đề thường gặp](#các-vấn-đề-thường-gặp)
+- [Tạo ứng dụng mới (`folder`)](#tạo-ứng-dụng-mới-folder)
+- [Tạo component cho ứng dụng (`gen:app`)](#tạo-component-cho-ứng-dụng-genapp)
+- [Tạo component cho thư viện UI (`gen:ui`)](#tạo-component-cho-thư-viện-ui-genui)
+- [Tùy chỉnh và mở rộng](#tùy-chỉnh-và-mở-rộng)
+- [Câu hỏi thường gặp](#câu-hỏi-thường-gặp)
 
 ## Giới thiệu
 
-Công cụ tạo component tự động là một tập hợp các script giúp tạo ra cấu trúc component chuẩn hóa cho dự án của bạn. Chúng bao gồm hai script chính:
+Bộ công cụ này bao gồm 3 script tự động hóa các tác vụ phổ biến trong dự án monorepo:
 
-1. **app-component.mjs**: Dùng để tạo component cho ứng dụng (trong thư mục `apps/`)
-2. **package-component.mjs**: Dùng để tạo component cho các package UI (trong thư mục `packages/ui/`)
+1. **create-app-folder.mjs**: Tạo thư mục ứng dụng mới với cấu trúc chuẩn
+2. **app-component.mjs**: Tạo component cho ứng dụng (trong thư mục `apps/`)
+3. **package-component.mjs**: Tạo component cho thư viện UI (trong thư mục `packages/ui/`)
 
-Các công cụ này hỗ trợ nhiều framework khác nhau:
-
-- ReactJS
-- VueJS
-- Svelte
+Các công cụ này giúp tiết kiệm thời gian và đảm bảo tính nhất quán trong toàn bộ codebase.
 
 ## Cài đặt
 
-Để sử dụng các công cụ này, bạn cần thêm chúng vào phần scripts trong file `package.json` của dự án:
+Các script được cài đặt sẵn trong dự án thông qua các lệnh trong `package.json`. Đối với các dự án mới, thêm các dòng sau vào `package.json` ở thư mục gốc:
 
 ```json
 "scripts": {
+  "folder": "node scripts/create-app-folder.mjs",
   "gen:app": "node scripts/app-component.mjs",
   "gen:ui": "node scripts/package-component.mjs"
+},
+"bin": {
+  "gen-folder": "./scripts/create-app-folder.mjs",
+  "gen-app": "./scripts/app-component.mjs",
+  "gen-ui": "./scripts/package-component.mjs"
 }
 ```
 
-Sau đó, sao chép các file `app-component.mjs` và `package-component.mjs` vào thư mục `scripts/` trong dự án của bạn.
+Sau đó, chạy lệnh sau để liên kết các lệnh toàn cục (tùy chọn):
 
-## Cách sử dụng app-component.mjs
+```bash
+npm link
+```
 
-Công cụ `app-component.mjs` dùng để tạo component cho ứng dụng của bạn.
+## Tạo ứng dụng mới (`folder`)
+
+Lệnh `folder` dùng để tạo một ứng dụng mới trong thư mục `apps/`.
+
+### Cách sử dụng
+
+```bash
+npm run folder <tên-ứng-dụng>
+```
+
+Hoặc nếu đã liên kết toàn cục:
+
+```bash
+folder <tên-ứng-dụng>
+```
+
+### Quy trình tạo ứng dụng
+
+1. **Chọn loại ứng dụng**
+
+   - Framework (Next.js, Nuxt, SvelteKit)
+   - Library (React, Vue, Svelte)
+
+2. **Xác nhận ghi đè** (nếu thư mục đã tồn tại)
+
+3. **Cài đặt dependencies** (tùy chọn)
+
+### Ví dụ
+
+```bash
+npm run folder dating
+```
+
+Lệnh trên sẽ khởi động wizard để tạo ứng dụng "dating" với các lựa chọn:
+
+```
+? Do you want to use a framework or a library? (Use arrow keys)
+  Framework
+  Library (Vanilla)
+
+? Select the framework for your app: (Use arrow keys)
+  Next.js (React)
+  Nuxt (Vue)
+  SvelteKit (Svelte)
+
+? Do you want to install dependencies after setup? (Use arrow keys)
+  Yes
+  No
+```
+
+Sau khi hoàn thành, một ứng dụng mới sẽ được tạo với cấu trúc chuẩn và các cấu hình cần thiết:
+
+- Package.json
+- Cấu hình TypeScript
+- ESLint
+- Cấu trúc thư mục
+- Các file mẫu cơ bản
+
+## Tạo component cho ứng dụng (`gen:app`)
+
+Lệnh `gen:app` dùng để tạo component cho ứng dụng trong thư mục `apps/`.
 
 ### Điều kiện sử dụng
 
-- Bạn phải đang ở trong thư mục của một ứng dụng (thư mục có đường dẫn chứa `/apps/` hoặc `\apps\`)
-- Môi trường phải được cài đặt NodeJS
+- Bạn phải đang ở trong thư mục của một ứng dụng (trong `apps/`)
 
-### Các bước sử dụng
-
-1. Di chuyển vào thư mục ứng dụng của bạn:
+### Cách sử dụng
 
 ```bash
-cd apps/your-app-name
+cd apps/<tên-ứng-dụng>
+npm run gen:app <tên-component>
 ```
 
-2. Chạy lệnh sau để tạo component (thay `ComponentName` bằng tên component bạn muốn tạo):
+Hoặc nếu đã liên kết toàn cục:
 
 ```bash
-npm run gen:app ComponentName
+cd apps/<tên-ứng-dụng>
+gen-app <tên-component>
 ```
 
-3. Thực hiện các bước theo hướng dẫn:
+### Quy trình tạo component
 
-   a. **Chọn TypeScript**: Chọn "Yes" để sử dụng TypeScript, "No" để sử dụng JavaScript
+1. **Xác định framework** (tự động phát hiện từ package.json)
 
-   b. **Nhập tên thư mục**: Nhập tên thư mục chứa component (mặc định là tên component)
+2. **Chọn TypeScript** (Yes/No)
 
-   c. **Nhập tên file**: Nhập tên file chính của component (mặc định là "index")
+3. **Nhập tên thư mục** (mặc định là tên component)
 
-   d. **Chọn các file cần tạo**: Lựa chọn các file bạn muốn tạo từ danh sách sau:
+4. **Nhập tên file** (mặc định là "index")
+
+5. **Chọn file cần tạo**
 
    - File component (`.tsx/.jsx/.vue/.svelte`)
-   - File index (để export component)
+   - File index
    - File test
    - File stories (cho Storybook)
-   - File styles (CSS/SCSS)
+   - File styles
    - File hooks (cho React)
    - File constants
    - File utils
 
-   e. **Tự động export**: Chọn có tự động thêm export vào file index.ts/js của thư mục cha hay không
+6. **Xác nhận export tự động** vào file index của thư mục cha
 
-   f. **Nhập tên hook** (nếu bạn chọn tạo file hooks): Nhập tên cho custom hook (phải bắt đầu bằng "use")
+7. **Nhập tên hook** (nếu tạo file hooks)
 
-   g. **Xác nhận ghi đè** (nếu component đã tồn tại): Chọn có ghi đè hay không
+8. **Xác nhận ghi đè** (nếu component đã tồn tại)
 
-   h. **Quản lý Git** (nếu dự án sử dụng Git): Chọn có staged và commit thay đổi hay không
+9. **Quản lý Git** (tùy chọn)
 
-4. Sau khi hoàn tất, component mới sẽ được tạo với cấu trúc đã chọn.
+### Ví dụ
 
-### Đường dẫn mặc định
+```bash
+cd apps/dating
+npm run gen:app Profile
+```
 
-- **React/Vue**: `src/components/[directory-name]/`
-- **Svelte**: `lib/[directory-name]/`
+Kết quả là một component Profile được tạo với cấu trúc:
 
-## Cách sử dụng package-component.mjs
+```
+Profile/
+├── index.tsx
+├── styles.module.scss
+├── index.test.tsx
+└── index.stories.tsx
+```
 
-Công cụ `package-component.mjs` dùng để tạo component cho thư viện UI của bạn.
+## Tạo component cho thư viện UI (`gen:ui`)
+
+Lệnh `gen:ui` dùng để tạo component cho thư viện UI trong thư mục `packages/ui/`.
 
 ### Điều kiện sử dụng
 
-- Bạn phải đang ở trong thư mục UI package (có đường dẫn chứa `packages/ui/` hoặc `packages\ui\`)
-- Môi trường phải được cài đặt NodeJS
+- Bạn phải đang ở trong thư mục UI package (trong `packages/ui/react`, `packages/ui/vue`, hoặc `packages/ui/svelte`)
 
-### Các bước sử dụng
-
-1. Di chuyển vào thư mục package UI của bạn:
+### Cách sử dụng
 
 ```bash
-cd packages/ui/[framework]
+cd packages/ui/<framework>
+npm run gen:ui <tên-component>
 ```
 
-2. Chạy lệnh sau để tạo component (thay `ComponentName` bằng tên component bạn muốn tạo):
+Hoặc nếu đã liên kết toàn cục:
 
 ```bash
-npm run gen:ui ComponentName
+cd packages/ui/<framework>
+gen-ui <tên-component>
 ```
 
-3. Thực hiện các bước theo hướng dẫn:
+### Quy trình tạo component
 
-   a. **Chọn TypeScript**: Chọn "Yes" để sử dụng TypeScript, "No" để sử dụng JavaScript
+1. **Xác định framework** (tự động phát hiện từ thư mục hiện tại)
 
-   b. **Chọn loại component** (theo Atomic Design):
+2. **Chọn TypeScript** (Yes/No)
 
-   - atoms: Các component cơ bản nhỏ nhất
-   - molecules: Các component được tạo từ nhiều atoms
-   - organisms: Các component phức tạp hơn, tạo từ nhiều molecules
-   - templates: Các bố cục trang
-   - shared: Các component dùng chung
+3. **Chọn loại component** (theo Atomic Design)
 
-   c. **Nhập tên file**: Nhập tên file chính của component (mặc định là "index")
+   - atoms: Các component cơ bản
+   - molecules: Kết hợp từ nhiều atoms
+   - organisms: Phức tạp hơn, kết hợp nhiều molecules
+   - templates: Bố cục trang
+   - shared: Components dùng chung
 
-   d. **Xác nhận ghi đè** (nếu component đã tồn tại): Chọn có ghi đè hay không
+4. **Nhập tên file** (mặc định là "index")
 
-   e. **Quản lý Git** (nếu dự án sử dụng Git): Chọn có staged và commit thay đổi hay không
+5. **Xác nhận ghi đè** (nếu component đã tồn tại)
 
-4. Sau khi hoàn tất, component mới sẽ được tạo với cấu trúc đã chọn, và file index của thư mục cha sẽ được cập nhật để export component này.
+6. **Quản lý Git** (tùy chọn)
 
-### Đường dẫn mặc định
+### Ví dụ
 
-- `src/[component-type]/[component-name]/`
-
-Ví dụ: `src/atoms/Button/`
-
-## Cấu trúc file được tạo
-
-### Cho React
-
-```
-ComponentName/
-├── index.ts|js           # File export
-├── [filename].tsx|jsx    # File component chính
-├── [filename].test.tsx|jsx # File test
-├── [filename].stories.tsx|jsx # File Storybook
-├── styles.module.scss    # File styles
-├── hooks.tsx|jsx         # (Tùy chọn) Custom hooks
-├── constants.ts          # (Tùy chọn) Constants
-└── utils.ts              # (Tùy chọn) Utility functions
+```bash
+cd packages/ui/react
+npm run gen:ui Button
 ```
 
-### Cho Vue
+Kết quả là một component Button được tạo với cấu trúc theo Atomic Design:
 
 ```
-ComponentName/
-├── index.ts|js           # File export
-├── [filename].vue        # File component chính
-├── [filename].test.ts|js # File test
-├── [filename].stories.ts|js # File Storybook
-└── (Các file tùy chọn khác)
+src/atoms/Button/
+├── index.tsx
+├── styles.module.scss
+├── index.test.tsx
+└── index.stories.tsx
 ```
 
-### Cho Svelte
+Đồng thời, file `src/atoms/index.ts` sẽ được cập nhật để export component mới.
 
-```
-ComponentName/
-├── index.ts|js             # File export
-├── [filename].svelte       # File component chính
-├── [filename].test.ts|js   # File test
-├── [filename].stories.ts|js # File Storybook
-└── (Các file tùy chọn khác)
-```
+## Tùy chỉnh và mở rộng
 
-## Tùy chọn nâng cao
+### Thêm framework mới
+
+Để thêm hỗ trợ cho một framework mới:
+
+1. Mở file `create-app-folder.mjs`
+2. Thêm framework vào danh sách lựa chọn
+3. Tạo hàm `setup<FrameworkName>` mới
+4. Cập nhật switch case trong hàm chính
 
 ### Tùy chỉnh template
 
-Bạn có thể tùy chỉnh template của các file được tạo bằng cách sửa các hàm trong script. Mỗi loại file có một hàm riêng:
+Mỗi script có các hàm tạo template riêng cho từng loại file:
 
-- `generateComponentFile()`: File component chính
-- `generateIndexFile()`: File index
-- `generateTestFile()`: File test
-- `generateStoriesFile()`: File Storybook
-- `generateStylesFile()`: File styles
-- `generateHooksFile()`: File hooks
-- `generateConstantsFile()`: File constants
-- `generateUtilsFile()`: File utils
+- Trong `app-component.mjs`: Các hàm `generate*File()`
+- Trong `package-component.mjs`: Các hàm `generate<Framework>Component()`
+- Trong `create-app-folder.mjs`: Các hàm `setup<Framework>()`
 
-### Auto-formatting và linting
+Bạn có thể điều chỉnh nội dung các template này để phù hợp với dự án của mình.
 
-Các script hỗ trợ tự động format code với Prettier và kiểm tra lỗi với ESLint (nếu có sẵn trong dự án). Nếu gặp lỗi trong quá trình này, script sẽ hiển thị cảnh báo nhưng vẫn tiếp tục.
-
-### Tích hợp Git
-
-Nếu dự án của bạn sử dụng Git, các script sẽ tự động phát hiện và cung cấp tùy chọn để staged và commit các file mới. Điều này giúp quản lý phiên bản ngay từ khi tạo component.
-
-## Các vấn đề thường gặp
+## Câu hỏi thường gặp
 
 ### Lỗi "You are not in an apps directory"
 
@@ -225,18 +273,29 @@ cd apps/your-app-name
 cd packages/ui/react # hoặc vue, svelte
 ```
 
-### Lỗi khi đặt tên hook
+### Các file sinh ra không có định dạng đúng
 
-**Nguyên nhân**: Tên hook không bắt đầu bằng "use".
+**Nguyên nhân**: Prettier không được cài đặt hoặc cấu hình không đúng.
 
-**Giải pháp**: Đảm bảo tên hook luôn bắt đầu bằng "use" (ví dụ: "useCounter").
+**Giải pháp**: Kiểm tra cài đặt Prettier và cấu hình liên quan:
 
-### Lỗi khi chạy Prettier hoặc ESLint
+```bash
+npm install --save-dev prettier
+```
 
-**Nguyên nhân**: Prettier hoặc ESLint không được cài đặt hoặc cấu hình không đúng.
+### Tôi muốn thay đổi cấu trúc sinh ra cho một framework cụ thể
 
-**Giải pháp**: Cài đặt và cấu hình đúng Prettier và ESLint, hoặc bỏ qua lỗi này nếu không cần thiết.
+**Giải pháp**: Chỉnh sửa hàm tương ứng trong script:
+
+- Cho Next.js: Sửa hàm `setupNextJs()` trong `create-app-folder.mjs`
+- Cho component React: Sửa hàm `generateReactComponent()` trong `package-component.mjs`
+
+### Làm thế nào để chia sẻ các script này giữa các dự án?
+
+Bạn có thể:
+
+1. Đóng gói các script thành một npm package
+2. Hoặc sử dụng symlink để liên kết chúng giữa các dự án
+3. Hoặc sao chép scripts vào mỗi dự án và tùy chỉnh nếu cần
 
 ---
-
-Chúc bạn sử dụng công cụ tạo component tự động một cách hiệu quả cho dự án của mình!

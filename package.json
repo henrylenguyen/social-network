@@ -27,7 +27,8 @@
     "gen:ui": "node scripts/package-component.mjs",
     "gen:app": "node scripts/app-component.mjs",
     "fix:packages": "node scripts/fix-ui-packages.mjs",
-    "add-prettier": "node scripts/add-prettier-config.mjs"
+    "add-prettier": "node scripts/add-prettier-config.mjs",
+    "gen-folder": "node scripts/create-app-folder.mjs"
   },
   "devDependencies": {
     "@commitlint/cli": "^18.6.1",
@@ -58,6 +59,7 @@
   },
   "bin": {
     "gen-ui": "./scripts/package-component.mjs",
-    "gen-app": "./scripts/app-component.mjs"
+    "gen-app": "./scripts/app-component.mjs",
+    "gen-folder": "./scripts/create-app-folder.mjs"
   }
 }
