@@ -1,6 +1,6 @@
 <template>
   <button :class="buttonClasses" :disabled="disabled || isLoading" v-bind="$attrs">
-    <span v-if="isLoading" class="loader mr-2"></span>
+    <span v-if="isLoading" class="loader mr-2" />
     <span v-if="!isLoading && leftIcon" class="mr-2">
       <slot name="left-icon" />
     </span>

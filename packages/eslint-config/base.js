@@ -16,6 +16,8 @@ module.exports = {
     '@typescript-eslint/no-explicit-any': 'warn',
     '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
     'no-console': ['warn', { allow: ['warn', 'error', 'info'] }],
+    semi: ['error', 'never'], // Thêm quy tắc này để cấm dấu chấm phẩy
+    '@typescript-eslint/semi': ['error', 'never'], // Thêm cho TypeScript
   },
   ignorePatterns: ['node_modules/', 'dist/', 'build/', 'coverage/', '**/*.d.ts'],
 }

@@ -1,9 +1,5 @@
 module.exports = {
-  extends: [
-    'plugin:react/recommended',
-    "./base.js", 
-    'next/core-web-vitals',
-  ],
+  extends: ['plugin:react/recommended', './base.js', 'next/core-web-vitals'],
   plugins: ['react', 'jsx-a11y'],
   settings: {
     react: {
