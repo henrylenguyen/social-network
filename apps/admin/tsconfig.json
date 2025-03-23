@@ -1,0 +1,6 @@
+{
+  "extends": "@social-blog/typescript-config/nuxtjs.json",
+  "exclude": ["node_modules", ".nuxt", "dist"],
+  "include": ["src/**/*", "types/**/*.d.ts", "app/**/*"],
+  "files": []
+}

@@ -1,0 +1,27 @@
+{
+  "name": "@social-blog/admin",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare",
+    "lint": "eslint .",
+    "clean": "rm -rf .nuxt .output node_modules .turbo"
+  },
+  "dependencies": {
+    "@social-blog/ui-vue": "*",
+    "socket.io-client": "^4.7.4",
+    "vue": "^3.4.15"
+  },
+  "devDependencies": {
+    "@nuxt/devtools": "latest",
+    "@social-blog/eslint-config": "*",
+    "@social-blog/typescript-config": "*",
+    "eslint": "^8.56.0",
+    "nuxt": "^3.9.3",
+    "typescript": "^5.3.3"
+  }
+}

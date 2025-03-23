@@ -1,0 +1,11 @@
+{
+  "name": "@social-blog/prettier-config",
+  "version": "0.0.1",
+  "private": true,
+  "main": "index.js",
+  "dependencies": {
+    "prettier": "^3.2.5",
+    "prettier-plugin-svelte": "^3.1.2",
+    "prettier-plugin-tailwindcss": "^0.5.11"
+  }
+}

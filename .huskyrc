@@ -1,0 +1,5 @@
+{
+  "hooks": {
+    "pre-commit": "FORCE_COLOR=1 lint-staged --verbose --no-stash --concurrent false"
+  }
+}

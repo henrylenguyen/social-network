@@ -1,0 +1,21 @@
+{
+  "name": "@social-blog/storybook-config",
+  "version": "0.0.1",
+  "private": true,
+  "main": "index.js",
+  "files": [
+    "main.js",
+    "preview.js",
+    "manager.js"
+  ],
+  "dependencies": {
+    "@storybook/addon-a11y": "^7.6.6",
+    "@storybook/addon-essentials": "^7.6.6",
+    "@storybook/addon-interactions": "^7.6.6",
+    "@storybook/addon-links": "^7.6.6",
+    "@storybook/addon-styling": "^1.3.7",
+    "@storybook/blocks": "^7.6.6",
+    "@storybook/manager-api": "^7.6.6",
+    "@storybook/theming": "^7.6.6"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "extends": "@social-blog/typescript-config/base.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@social-blog/*": ["packages/*/src"]
+    }
+  },
+  "include": ["packages", "apps"],
+  "exclude": ["node_modules", "dist", "build", "coverage", ".next", ".nuxt"]
+}

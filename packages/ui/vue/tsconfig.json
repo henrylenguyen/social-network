@@ -1,0 +1,17 @@
+{
+  "extends": "@social-blog/typescript-config/base.json",
+  "compilerOptions": {
+    "jsx": "preserve",
+    "lib": ["ESNext", "DOM"],
+    "module": "ESNext",
+    "target": "es6",
+    "moduleResolution": "node",
+    "outDir": "dist",
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "allowSyntheticDefaultImports": true
+  },
+  "include": ["src/**/*.ts", "src/**/*.vue", "src/**/*.d.ts"],
+  "exclude": ["node_modules", "dist"]
+}

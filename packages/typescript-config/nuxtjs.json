@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "display": "Nuxt.js",
+  "extends": "./base.json",
+  "compilerOptions": {
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "allowJs": true,
+    "jsx": "preserve",
+    "noEmit": true,
+    "resolveJsonModule": true,
+    "incremental": true,
+    "paths": {
+      "@/*": ["./src/*"],
+      "~/*": ["./src/*"]
+    },
+    "types": ["@nuxt/types", "@nuxtjs/axios", "@types/node"]
+  },
+  "include": ["**/*.ts", "**/*.tsx", "**/*.vue", "../../types/**/*.d.ts"],
+  "exclude": ["node_modules", ".nuxt", "dist"]
+}
