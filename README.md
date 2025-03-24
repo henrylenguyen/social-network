@@ -73,7 +73,12 @@ gen-folder <tên-ứng-dụng>
 ### Ví dụ
 
 ```bash
-npm run folder dating
+npm run gen:folder dating
+```
+
+hoặc
+```bash
+gen-folder dating
 ```
 
 Lệnh trên sẽ khởi động wizard để tạo ứng dụng "dating" với các lựa chọn:
