@@ -26,7 +26,7 @@ Các script được cài đặt sẵn trong dự án thông qua các lệnh tro
 
 ```json
 "scripts": {
-  "folder": "node scripts/create-app-folder.mjs",
+  "gen:folder": "node scripts/create-app-folder.mjs",
   "gen:app": "node scripts/app-component.mjs",
   "gen:ui": "node scripts/package-component.mjs"
 },
@@ -50,13 +50,13 @@ Lệnh `folder` dùng để tạo một ứng dụng mới trong thư mục `app
 ### Cách sử dụng
 
 ```bash
-npm run folder <tên-ứng-dụng>
+npm run gen:folder <tên-ứng-dụng>
 ```
 
 Hoặc nếu đã liên kết toàn cục:
 
 ```bash
-folder <tên-ứng-dụng>
+gen-folder <tên-ứng-dụng>
 ```
 
 ### Quy trình tạo ứng dụng
